@@ -123,13 +123,22 @@
           this.logedIn = true;
           cekpassword = this.password;
           cekusername = this.username;
-          tgl = (cekusername.substring(6,8) < 31)? cekusername.substring(6,8) : cekusername.substring(6,8)-40;
+          t = cekusername.substring(6,8)-40;
+          tg = (t < 10 ? "0"+t : t);
+          tgl = (cekusername.substring(6,8) < 35)? cekusername.substring(6,8) : tg;
           bl = cekusername.substring(8,10);
           thn = (cekusername.substring(10,12) < 50)? "20"+cekusername.substring(10,12) : "19"+cekusername.substring(10,12);
           // this.tgllhr = cekusername.substring(6,12);
           tgllhr = tgl+""+bl+""+thn;
           lanjut = (cekpassword == tgllhr) ? true : false;
-
+        //   console.log('cekpassword '+cekpassword);
+        //   console.log('tg '+tg);
+        //   console.log('tgl '+tgl);
+        //   console.log('bl '+bl);
+        //   console.log('thn '+thn);
+          console.log('tgllhr '+tgllhr);
+          
+          
           if (lanjut) {
 
              axios.get('https://script.google.com/macros/s/AKfycbxVcSs5bM_B8mpCb-zIpZpX9v8MFSmZM2Oh5gmKING0Qu9ndtt4dUmLH2H-7qu_i-I7aQ/exec',{
@@ -179,4 +188,3 @@
 </footer>
 </body>
 </html>
-
