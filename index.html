@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.css" integrity="sha512-Ef5r/bdKQ7JAmVBbTgivSgg3RM+SLRjwU0cAgySwTSv4+jYcVeDukMp+9lZGWT78T4vCUxgT3g+E8t7uabwRuw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
       <script src="https://cdn.jsdelivr.net/npm/axios@1.2.1/dist/axios.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+ 
       <style>
     .fa-star {
       color: #ffd700;
@@ -16,179 +17,100 @@
      </style>
 </head>
 
-<!-- 3371022501820007 25011982 -->
-
 <body>
-    <div x-data="{
-        username:'',
-        password:'',
-        tgllhr:'',
-
-        logedIn: false,
-        page:'login',
-        nama:'',
-        orang:[],
-
-         }">
-
-
-<!-- halaman login -->
-<template x-if = "page == 'login'">
-    <div>
-        <div class="w3-center">
-            <img src="rssoerojo.jpg" width="180">
-        <h4 >eK3 Soerojo</h4>
-        </div>
-        <form class="w3-form w3-padding" @submit.prevent="kirimData">
-                <div>
-                    <label for="Nama">Username</label>
-                    <input class="w3-input w3-round w3-border" type="text" id="username" x-model="username">
-                <br>
-                    <label for="NomorHP">Password</label>
-                    <input class="w3-input w3-round w3-border" type="password" id="password" x-model="password">
-                <br>
-                 <button class="w3-button w3-blue w3-padding" x-bind:disabled="logedIn" type="submit">
-                       <span x-show="!logedIn">login</span>
-                        <span x-show="logedIn">
-                        <i class="fas fa-spinner fa-spin"></i> Proses...
-                        </span>
-                 </button>
-             </div>
-         </form>
-     </div>
-</template>
-
-
-<!-- halaman header dan navbar -->
-<template x-if = "page == 'home'">
-
-            <div class="w3-bar w3-lime">
-            <div class="w3-bar-item"> eK3 Soerojo</div>
-            <div class="w3-right w3-bar-item" x-text = "orang[0].Nama"></div>
-            
-            </div>
-        
-</template>
-
-<!-- halaman home -->
-<template x-if = "page == 'home'">
-    <div class="w3-padding">
-       <p>Selamat datang di Aplikasi eK3 Soerojo, berikut adalah hasil pemeriksaan dan pengukuran kebugaran di tahun 2025 ini</p>
-       
-         <table class="w3-table-all w3-responsive">
-            <thead>
-              <tr>
-                <th>Tanggal</th>
-                <th>Pemeriksaan</th>
-                <th>Hasil</th>
-                <th>Standar</th>
-                <th>Kesimpulan</th>
-              </tr>
-            </thead>
-            <tbody>
-            <template x-for="(o,index) in orang" :key="index">
-
-                   <template x-if="o.jenisPemeriksaan.length > 1">
-                   <tr>
-                      <td x-text="new Date(o.tglPemeriksaan).toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit',year:'numeric'})"></td>
-                      <td x-text="o.jenisPemeriksaan"></td>
-                      <td x-text="o.Nilai"></td>
-                      <td x-text="o.Standar"></td>
-                      <td x-text="o.Kesimpulan"></td>
-                    </tr>
-                </template>
-            </template>
-
-        </tbody>
-      </table>
-      <p>Terimakasih atas partisipasi dalam meningkatkan Budaya Hidup Sehat Soerojo Hospital, untuk keterangan lebih lanjut bisa menghubungi K3RS via WA <a href="https://wa.me/6285851916501">Zaenal</a>, Salam sehat</p>
-    </div>
-</template>
-
-
-<!-- check data -->
-<!-- div class="w3-padding">
-    
-<br><br><br><br><br>
-<div x-text = 'username'></div>
-<div x-text = 'password'></div>
-<div x-text = 'tgllhr'></div>
-<div x-text = 'page'></div>
-</div> -->
-
-
-
-<script type="text/javascript">
-
-        function kirimData() {
-          this.logedIn = true;
-          cekpassword = this.password;
-          cekusername = this.username;
-          t = cekusername.substring(6,8)-40;
-          tg = (t < 10 ? "0"+t : t);
-          tgl = (cekusername.substring(6,8) < 35)? cekusername.substring(6,8) : tg;
-          bl = cekusername.substring(8,10);
-          thn = (cekusername.substring(10,12) < 50)? "20"+cekusername.substring(10,12) : "19"+cekusername.substring(10,12);
-          // this.tgllhr = cekusername.substring(6,12);
-          tgllhr = tgl+""+bl+""+thn;
-          lanjut = (cekpassword == tgllhr) ? true : false;
-        //   console.log('cekpassword '+cekpassword);
-        //   console.log('tg '+tg);
-        //   console.log('tgl '+tgl);
-        //   console.log('bl '+bl);
-        //   console.log('thn '+thn);
-          console.log('tgllhr '+tgllhr);
-          
-          
-          if (lanjut) {
-
-             axios.get('https://script.google.com/macros/s/AKfycbxVcSs5bM_B8mpCb-zIpZpX9v8MFSmZM2Oh5gmKING0Qu9ndtt4dUmLH2H-7qu_i-I7aQ/exec',{
-                      params:{
-                        nik:this.username
-                       }
-                  })
-                .then(response => {
-                        data = response.data;
-                        this.orang = data;
-                        console.log(data);
-                        if (data == 'Data tidak ditemukan') {
-                            this.page = 'login';
-                            this.logedIn = false;
-                            showAlert('Warning','Gagal login username atau password salah!');
-                        }else{
-                            this.page = 'home';
-
-                        }
-                })
-                .catch(error => {
-                    console.error(error);
-                    this.page = 'login';
-                    this.logedIn = false;
-                    showAlert('Warning','Gagal login username atau password salah!');
-                });
-
-          }else{
-            showAlert('Warning','Gagal login username atau password salah!');
-            this.username='';
-            this.password='';
-            this.logedIn=false;
-          }
+    <div x-data="
+        {
+              username:'',
+              password:'',
+              tgllhr:'',
+              logedIn: false,
+              page:'login',
+              nama:'',
+              orang:[]
         }
-      
-  function showAlert(tt,isi) {
-    Swal.fire({
-      title: tt,
-      text: isi,
-      icon: '',
-      confirmButtonText: 'OK'
-    })
-  }
-        
-</script>
+    " style="height: 800px">
+
+        <!-- halaman login -->
+        <template x-if = "page == 'login'">
+            <div>
+                <div class="w3-center">
+                    <img src="rssoerojo.jpg" width="180">
+                <h4 >eK3 Soerojo</h4>
+                </div>
+                <form class="w3-form w3-padding" @submit.prevent="kirimData">
+                        <div>
+                            <label for="Nama">Username</label>
+                            <input class="w3-input w3-round w3-border" type="text" id="username" x-model="username">
+                        <br>
+                            <label for="NomorHP">Password</label>
+                            <input class="w3-input w3-round w3-border" type="password" id="password" x-model="password">
+                        <br>
+                         <button class="w3-button w3-blue w3-padding" x-bind:disabled="logedIn" type="submit">
+                               <span x-show="!logedIn">login</span>
+                                <span x-show="logedIn">
+                                <i class="fas fa-spinner fa-spin"></i> Proses...
+                                </span>
+                         </button>
+                     </div>
+                 </form>
+             </div>
+        </template>
 
 
+        <!-- halaman header dan navbar -->
+        <template x-if = "page == 'home'">
 
-    </div><br><br><br><br><br><br><br><br><br>
+                    <div class="w3-bar w3-lime">
+                    <div class="w3-bar-item"> eK3 Soerojo</div>
+                    <div class="w3-right w3-bar-item" x-text = "orang[0].Nama"></div>
+                    
+                    </div>
+                
+        </template>
+
+        <!-- halaman home -->
+        <template x-if = "page == 'home'">
+            <div class="w3-padding">
+               <p>Selamat datang di Aplikasi eK3 Soerojo, berikut adalah hasil pemeriksaan dan pengukuran kebugaran di tahun 2025 ini</p>
+               
+                 <table class="w3-table-all">
+
+            
+                <!-- tampilan biasa -->
+                    <thead>
+                      <tr>
+                        <th>Tanggal</th>
+                        <th>Pemeriksaan</th>
+                        <th>Hasil</th>
+                        <th>Standar</th>
+                        <th>Kesimpulan</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    <template x-for="(o,index) in orang" :key="index">
+
+                           <template x-if="o.jenisPemeriksaan.length > 1">
+                           <tr>
+                              <td x-text="new Date(o.tglPemeriksaan).toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit',year:'numeric'})"></td>
+                              <td x-text="o.jenisPemeriksaan"></td>
+                              <td x-text="o.Nilai"></td>
+                              <td x-text="o.Standar"></td>
+                              <td x-text="o.Kesimpulan"></td>
+                            </tr>
+                        </template>
+                    </template>
+
+                </tbody>
+              </table>
+              <p>Terimakasih atas partisipasi dalam meningkatkan Budaya Hidup Sehat Soerojo Hospital, untuk keterangan lebih lanjut bisa menghubungi K3RS via WA <a href="https://wa.me/6285851916501">Zaenal</a>, Salam sehat</p>
+
+            </div>
+        </template>
+
+        <script src="ek3.js"></script>
+
+
+    </div>
     <hr>
 <footer class="w3-center">
   <img src="rssoerojo.jpg" width="90">
