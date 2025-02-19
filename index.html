@@ -100,7 +100,7 @@
               <template x-for="(orang,tgl) in groupedOrang" :key="tgl">
                 
                   <div>
-                <h4 x-text="new Date(tgl).toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit',year:'numeric'})"></h4> <!-- Judul tabel berdasarkan tanggal -->
+                <p style="font-weight: bold" x-text="new Date(tgl).toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit',year:'numeric'})"></p> <!-- Judul tabel berdasarkan tanggal -->
                 <table class="w3-table-all">
                     <thead>
                         <tr>
@@ -129,7 +129,9 @@
 
 
               <p>Terimakasih atas partisipasi dalam meningkatkan Budaya Hidup Sehat Soerojo Hospital, untuk keterangan lebih lanjut bisa menghubungi K3RS via WA <a href="https://wa.me/6285851916501">Zaenal</a>, Salam sehat</p>
-
+              <div class=" w3-center">
+               <button class="w3-button w3-transparent w3-text-red" @click="out()" type="button">logout</button>
+              </div>
 
             </div>
         </template>
