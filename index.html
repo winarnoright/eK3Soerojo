@@ -18,17 +18,7 @@
 </head>
 
 <body>
-    <div x-data="
-        {
-              username:'',
-              password:'',
-              tgllhr:'',
-              logedIn: false,
-              page:'login',
-              nama:'',
-              orang:[]
-        }
-    " style="height: 800px">
+    <div x-data="xdata()" style="min-height: 800px">
 
         <!-- halaman login -->
         <template x-if = "page == 'login'">
@@ -73,10 +63,10 @@
             <div class="w3-padding">
                <p>Selamat datang di Aplikasi eK3 Soerojo, berikut adalah hasil pemeriksaan dan pengukuran kebugaran di tahun 2025 ini</p>
                
-                 <table class="w3-table-all">
+                <!-- tampilan biasa -->
+<!--                  <table class="w3-table-all">
 
             
-                <!-- tampilan biasa -->
                     <thead>
                       <tr>
                         <th>Tanggal</th>
@@ -102,7 +92,44 @@
 
                 </tbody>
               </table>
+ -->
+                <!-- tampilan biasa -->
+
+
+
+              <template x-for="(orang,tgl) in groupedOrang" :key="tgl">
+                
+                  <div>
+                <h4 x-text="new Date(tgl).toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit',year:'numeric'})"></h4> <!-- Judul tabel berdasarkan tanggal -->
+                <table class="w3-table-all">
+                    <thead>
+                        <tr>
+                        <th>Pemeriksaan</th>
+                        <th>Hasil</th>
+                        <th>Standar</th>
+                        <th>Kesimpulan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Loop untuk setiap pemeriksaan dalam tanggal tersebut -->
+                        <template x-for="(exam,index) in orang" :key="index">
+                            <tr>
+                                <td x-text="exam.jenisPemeriksaan"></td>
+                                <td x-text="exam.Nilai"></td>
+                                <td x-text="exam.Standar"></td>
+                                <td x-text="exam.Kesimpulan"></td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+                
+                
+              </template>
+
+
               <p>Terimakasih atas partisipasi dalam meningkatkan Budaya Hidup Sehat Soerojo Hospital, untuk keterangan lebih lanjut bisa menghubungi K3RS via WA <a href="https://wa.me/6285851916501">Zaenal</a>, Salam sehat</p>
+
 
             </div>
         </template>
