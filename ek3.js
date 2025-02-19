@@ -1,4 +1,37 @@
 
+function xdata(){
+        return{
+              username:'',
+              password:'',
+              tgllhr:'',
+              logedIn: false,
+              page:'login',
+              nama:'',
+              orang:[]
+        }}
+
+
+function groupedOrang() {
+        // Mengelompokkan data berdasarkan tanggal
+        const groups = this.orang.reduce((acc, exam) => {
+            if (!acc[exam.tglPemeriksaan]) {
+                acc[exam.tglPemeriksaan] = [];
+            }
+            acc[exam.tglPemeriksaan].push(exam);
+            return acc;
+        }, {});
+
+        // Mengurutkan tanggal dari yang terlama ke terbaru
+        const sortedGroups = {};
+        Object.keys(groups)
+            .sort((a, b) => new Date(a) - new Date(b)) // Urutkan tanggal
+            .forEach((tglPemeriksaan) => {
+                sortedGroups[tglPemeriksaan] = groups[tglPemeriksaan];
+            });
+
+        return sortedGroups;
+    }
+
 
 function kirimData() {
   this.logedIn = true;
@@ -28,9 +61,10 @@ function kirimData() {
                 if (data == 'Data tidak ditemukan') {
                     this.page = 'login';
                     this.logedIn = false;
-                    showAlert('Warning','Gagal login username atau password salah!');
+                    showAlert('Warning','Gagal login username atau password salah!!');
                 }else{
                     this.page = 'home';
+                    // groupedOrang()
 
                 }
         })
@@ -38,7 +72,7 @@ function kirimData() {
             console.error(error);
             this.page = 'login';
             this.logedIn = false;
-            showAlert('Warning','Gagal login username atau password salah!');
+            showAlert('Warning','Gagal login username atau password salah!!!');
         });
 
   }else{
