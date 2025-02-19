@@ -7,8 +7,15 @@ function xdata(){
               logedIn: false,
               page:'login',
               nama:'',
-              orang:[]
-        }}
+              orang:[],
+              out(){
+                this.page='login';
+                this.username='';
+                this.password='';
+                this.logedIn=false;
+                }
+              }
+            }
 
 
 function groupedOrang() {
@@ -94,4 +101,3 @@ function showAlert(tt,isi) {
     confirmButtonText: 'OK'
   })
 }
-
